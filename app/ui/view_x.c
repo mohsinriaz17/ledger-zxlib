@@ -79,41 +79,43 @@ UX_STEP_CB_INIT(ux_idle_flow_2_step, bn,  h_expert_update(), h_expert_toggle(), 
 UX_STEP_NOCB(ux_idle_flow_3_step, bn, { APPVERSION_LINE1, APPVERSION_LINE2, });
 
 #ifdef APP_SECRET_MODE_ENABLED
-UX_STEP_CB(ux_idle_flow_4_step, bn, h_secret_click(), { "Developed by:", "Zondax.ch", });
+UX_STEP_CB(ux_idle_flow_4_step, bn, h_secret_click(), { "Developed by:", DEVELOPER, });
 #else
-UX_STEP_NOCB(ux_idle_flow_4_step, bn, { "Developed by:", "Zondax.ch", });
+UX_STEP_NOCB(ux_idle_flow_4_step, bn, { "Developed by:", DEVELOPER, });
 #endif
 
-UX_STEP_NOCB(ux_idle_flow_5_step, bn, { "License:", "Apache 2.0", });
-UX_STEP_CB(ux_idle_flow_6_step, pb, os_sched_exit(-1), { &C_icon_dashboard, "Quit",});
+UX_STEP_NOCB(ux_idle_flow_5_step, bn, { "Credits:", "Zondax.ch", });
+UX_STEP_NOCB(ux_idle_flow_6_step, bn, { "License:", "Apache 2.0", });
+UX_STEP_CB(ux_idle_flow_7_step, pb, os_sched_exit(-1), { &C_icon_dashboard, "Quit",});
 
 #ifdef APP_ACCOUNT_MODE_ENABLED
-UX_STEP_CB_INIT(ux_idle_flow_7_step, bn,  h_account_update(), h_account_toggle(), { "Account:", viewdata.value, });
+UX_STEP_CB_INIT(ux_idle_flow_8_step, bn,  h_account_update(), h_account_toggle(), { "Account:", viewdata.value, });
 #endif
 
 #ifdef SHORTCUT_MODE_ENABLED
-UX_STEP_CB_INIT(ux_idle_flow_8_step, bn,  h_shortcut_update(), h_shortcut_toggle(), { "Shortcut mode:", viewdata.value, });
+UX_STEP_CB_INIT(ux_idle_flow_9_step, bn,  h_shortcut_update(), h_shortcut_toggle(), { "Shortcut mode:", viewdata.value, });
 #endif
 
 const ux_flow_step_t *const ux_idle_flow [] = {
   &ux_idle_flow_1_step,
   &ux_idle_flow_2_step,
 #ifdef APP_ACCOUNT_MODE_ENABLED
-  &ux_idle_flow_7_step,
+  &ux_idle_flow_8_step,
 #endif
 #ifdef SHORTCUT_MODE_ENABLED
-  &ux_idle_flow_8_step,
+  &ux_idle_flow_9_step,
 #endif
   &ux_idle_flow_3_step,
   &ux_idle_flow_4_step,
   &ux_idle_flow_5_step,
   &ux_idle_flow_6_step,
+  &ux_idle_flow_7_step,
   FLOW_END_STEP,
 };
 
 ///////////
 UX_STEP_CB_INIT(ux_menu_init_flow_2_step, bn,  NULL, h_initialize(), { "Click to", "Initialize", });
-UX_STEP_NOCB(ux_menu_init_flow_4_step, bn, { "Developed by:", "Zondax.ch", });
+UX_STEP_NOCB(ux_menu_init_flow_4_step, bn, { "Developed by:", DEVELOPER, });
 
 const ux_flow_step_t *const ux_menu_initialize [] = {
   &ux_idle_flow_1_step,
@@ -122,7 +124,7 @@ const ux_flow_step_t *const ux_menu_initialize [] = {
   &ux_menu_init_flow_4_step,
   &ux_idle_flow_5_step,
   &ux_idle_flow_6_step,
-
+  &ux_idle_flow_7_step,
   FLOW_END_STEP,
 };
 
@@ -267,7 +269,7 @@ void h_account_toggle() {
     if(app_mode_expert()) {
         account_enabled();
     } else {
-        ux_flow_init(0, ux_idle_flow, &ux_idle_flow_7_step);
+        ux_flow_init(0, ux_idle_flow, &ux_idle_flow_8_step);
     }
 }
 
@@ -286,7 +288,7 @@ void h_shortcut_toggle() {
         return;
     }
     app_mode_set_shortcut(0);
-    ux_flow_init(0, ux_idle_flow, &ux_idle_flow_8_step);
+    ux_flow_init(0, ux_idle_flow, &ux_idle_flow_9_step);
 }
 
 void h_shortcut_update() {
